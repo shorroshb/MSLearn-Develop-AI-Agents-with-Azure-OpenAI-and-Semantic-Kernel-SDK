@@ -20,6 +20,17 @@ builder.AddAzureOpenAIChatCompletion(modelId, endpoint, apiKey);
 var kernel = builder.Build();
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
-//
-// Add your code
-//
+
+// https://learn.microsoft.com/en-us/training/modules/give-your-ai-agent-skills/3-exercise-create-native-plugins
+
+kernel.Plugins.AddFromType<FlightBookingPlugin>("FlightBooking");
+OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new() 
+{
+    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+};
+var history = new ChatHistory();
+history.AddSystemMessage("The year is 2025 and the current month is January");
+AddUserMessage("Find me a flight to Tokyo on the 19");
+await GetReply();
+GetInput();
+await GetReply();

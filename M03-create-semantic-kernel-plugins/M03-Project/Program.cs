@@ -22,6 +22,15 @@ var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
 
 // https://learn.microsoft.com/en-us/training/modules/give-your-ai-agent-skills/3-exercise-create-native-plugins
+void AddMessage(string msg) {
+    Console.WriteLine(msg);
+    chatHistory.AddAssistantMessage(msg);
+}
+
+void GetInput() {
+    string input = Console.ReadLine()!;
+    chatHistory.AddUserMessage(input);
+}
 
 kernel.Plugins.AddFromType<FlightBookingPlugin>("FlightBooking");
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new() 

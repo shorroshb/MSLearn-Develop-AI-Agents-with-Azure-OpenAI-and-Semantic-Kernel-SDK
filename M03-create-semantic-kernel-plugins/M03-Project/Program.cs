@@ -41,6 +41,7 @@ async Task GetReply() {
     chatHistory.AddAssistantMessage(reply.ToString());
 }
 
+// Add the plugin
 kernel.Plugins.AddFromType<FlightBookingPlugin>("FlightBooking");
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new() 
 {
@@ -52,3 +53,41 @@ AddUserMessage("Find me a flight to Tokyo on the 19");
 await GetReply();
 GetInput();
 await GetReply();
+
+/*
+// https://learn.microsoft.com/en-us/training/modules/give-your-ai-agent-skills/5-exercise-configure-available-functions
+// Add the plugin
+kernel.Plugins.AddFromType<CurrencyExchangePlugin>("CurrencyExchange");
+
+// Select the plugin functions
+KernelFunction searchFlight = kernel.Plugins.GetFunction("FlightBooking", "search_flights");
+
+KernelFunction convertCurrency = kernel.Plugins.GetFunction("CurrencyExchange", "convert_currency")
+// Enable planning
+PromptExecutionSettings openAIPromptExecutionSettings = new() 
+{ 
+    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(functions: [searchFlight, convertCurrency]) 
+};    
+var history = new ChatHistory();
+// history.AddSystemMessage("The year is 2025 and the current month is January");
+AddUserMessage("Please convert $30 USD to Japanese Yen");
+await GetReply();  
+
+
+// Add the plugins
+// kernel.Plugins.AddFromType<FlightBookingPlugin>("FlightBooking");
+// kernel.Plugins.AddFromType<CurrencyExchangePlugin>("CurrencyExchange");
+kernel.Plugins.AddFromType<WeatherPlugin>("Weather");
+KernelFunction getWeather = kernel.Plugins.GetFunction("Weather", "get_weather");
+
+PromptExecutionSettings openAIPromptExecutionSettings = new() 
+{
+    FunctionChoiceBehavior = FunctionChoiceBehavior.Required(functions: [getWeather]) 
+};
+
+var history = new ChatHistory();
+history.AddSystemMessage("The year is 2025 and the current month is January");
+AddUserMessage("What is the weather in Tokyo");
+await GetReply();
+
+*/

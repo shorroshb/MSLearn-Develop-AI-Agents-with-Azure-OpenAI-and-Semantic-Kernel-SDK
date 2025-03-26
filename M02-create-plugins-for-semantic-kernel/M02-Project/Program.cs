@@ -38,6 +38,7 @@ var result = await kernel.InvokeAsync(activitiesFunction, arguments);
 Console.WriteLine(result);
 
 /*
+using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 // Create a kernel with Azure OpenAI chat completion
 var builder = Kernel.CreateBuilder();
 builder.AddAzureOpenAIChatCompletion(modelId, endpoint, apiKey);

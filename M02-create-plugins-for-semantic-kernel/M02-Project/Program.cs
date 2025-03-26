@@ -103,6 +103,16 @@ void GetInput() {
     string input = Console.ReadLine()!;
     chatHistory.AddUserMessage(input);
 }
+
+async Task GetReply() {
+    ChatMessageContent reply = await chatCompletionService.GetChatMessageContentAsync(
+        chatHistory,
+        kernel: kernel
+    );
+    Console.WriteLine(reply.ToString());
+    chatHistory.AddAssistantMessage(reply.ToString());
+}
+
 // Prompt the LLM
 chatHistory.AddSystemMessage("You are a helpful travel assistant.");
 chatHistory.AddSystemMessage("Recommend a destination to the traveler based on their background and preferences.");

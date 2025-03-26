@@ -83,3 +83,57 @@ var function = kernel.CreateFunctionFromPrompt(promptTemplateConfig, templateFac
 var response = await kernel.InvokeAsync(function, arguments);
 Console.WriteLine(response);
 */
+
+/*
+// Build the kernel
+Kernel kernel = builder.Build();
+
+// Get chat completion service.
+var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+
+// Create a chat history object
+ChatHistory chatHistory = [];
+
+void AddMessage(string msg) {
+    Console.WriteLine(msg);
+    chatHistory.AddAssistantMessage(msg);
+}
+
+void GetInput() {
+    string input = Console.ReadLine()!;
+    chatHistory.AddUserMessage(input);
+}
+// Prompt the LLM
+chatHistory.AddSystemMessage("You are a helpful travel assistant.");
+chatHistory.AddSystemMessage("Recommend a destination to the traveler based on their background and preferences.");
+
+// Get information about the user's plans
+AddMessage("Tell me about your travel plans.");
+GetInput();
+await GetReply();
+
+// Offer recommendations
+AddMessage("Would you like some activity recommendations?");
+GetInput();
+await GetReply();
+
+// Offer language tips
+AddMessage("Would you like some helpful phrases in the local language?");
+GetInput();
+await GetReply();
+
+Console.WriteLine("Chat Ended.\n");
+Console.WriteLine("Chat History:");
+
+for (int i = 0; i < chatHistory.Count; i++)
+{
+    Console.WriteLine($"{chatHistory[i].Role}: {chatHistory[i]}");
+}
+Run the code by entering dotnet run in the terminal.
+Enter some travel plans such as "I want to plan a romantic holiday with my partner in November. They need wheelchair accessibility."
+The LLM should provide you with a destination suggestion. Afterwards you should see the message for activity recommendations.
+Enter "Yes" in the terminal.
+The LLM should provide you with some activity recommendations. Afterwards you should see the message for language tips.
+Enter "Yes" in the terminal.
+The LLM should provide some phrases in the local language. Afterwards you should see the contents of the chat history object.
+*/

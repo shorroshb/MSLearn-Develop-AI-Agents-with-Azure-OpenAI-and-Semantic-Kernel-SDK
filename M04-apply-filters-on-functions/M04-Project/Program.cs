@@ -15,6 +15,11 @@ string apiKey = config["apiKey"]!;
 
 // Create a kernel with Azure OpenAI chat completion
 var builder = Kernel.CreateBuilder();
+
+// Build the kernel
+Kernel kernel = builder.Build();
+kernel.FunctionInvocationFilters.Add(new PermissionFilter());
+
 builder.AddAzureOpenAIChatCompletion(modelId, endpoint, apiKey);
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new() 
 {
@@ -45,19 +50,27 @@ var chatPrompt = @"
 
 var promptConfig = new PromptTemplateConfig(chatPrompt);
 
+
 async Task SyncPreviousChat() {
-    kernel.Plugins.AddFromType<PreviousChatPlugin>("PreviousChatPlugin");
-
-    var chatPrompt = @"{{PreviousChatPlugin.get_previous_conversation}}";
-    var promptConfig = new PromptTemplateConfig(chatPrompt)
-    {
-        AllowDangerouslySetContent = true
-    };
-
-    var function = KernelFunctionFactory.CreateFromPrompt(promptConfig);
-    var result = await kernel.InvokeAsync(function, []);
-    Console.WriteLine(result);
+    AddUserMessage("Find me a flight to Tokyo on the 19");
+    await GetReply();
+    GetInput();
+    await GetReply();
 }
+
+// async Task SyncPreviousChat() {
+//     kernel.Plugins.AddFromType<PreviousChatPlugin>("PreviousChatPlugin");
+
+//     var chatPrompt = @"{{PreviousChatPlugin.get_previous_conversation}}";
+//     var promptConfig = new PromptTemplateConfig(chatPrompt)
+//     {
+//         AllowDangerouslySetContent = true
+//     };
+
+//     var function = KernelFunctionFactory.CreateFromPrompt(promptConfig);
+//     var result = await kernel.InvokeAsync(function, []);
+//     Console.WriteLine(result);
+// }
 
 
 void GetInput() {
